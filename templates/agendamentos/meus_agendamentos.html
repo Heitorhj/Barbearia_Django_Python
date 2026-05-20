@@ -1,0 +1,52 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Meus Agendamentos{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+  <h1>Meus Agendamentos</h1>
+  <a href="{% url 'agendar_step1' %}" class="btn btn-primary">+ Novo Agendamento</a>
+</div>
+
+<h2 style="font-size:1.1rem;margin-bottom:.8rem">Próximos</h2>
+{% if proximos %}
+<div class="card" style="padding:0">
+  <table>
+    <thead><tr><th>Data/Hora</th><th>Serviço</th><th>Barbeiro</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for ag in proximos %}
+      <tr>
+        <td>{{ ag.data_hora|date:"d/m/Y H:i" }}</td>
+        <td>{{ ag.servico.nome }}</td>
+        <td>{{ ag.barbeiro }}</td>
+        <td><span class="badge badge-{{ ag.status }}">{{ ag.get_status_display }}</span></td>
+        <td><a href="{% url 'detalhe_agendamento' ag.pk %}" style="color:#c9a84c">Ver</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p style="color:#666;margin-bottom:1.5rem">Nenhum agendamento próximo.</p>
+{% endif %}
+
+<h2 style="font-size:1.1rem;margin-bottom:.8rem;margin-top:1.5rem">Histórico</h2>
+{% if historico %}
+<div class="card" style="padding:0">
+  <table>
+    <thead><tr><th>Data/Hora</th><th>Serviço</th><th>Barbeiro</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for ag in historico %}
+      <tr>
+        <td>{{ ag.data_hora|date:"d/m/Y H:i" }}</td>
+        <td>{{ ag.servico.nome }}</td>
+        <td>{{ ag.barbeiro }}</td>
+        <td><span class="badge badge-{{ ag.status }}">{{ ag.get_status_display }}</span></td>
+        <td><a href="{% url 'detalhe_agendamento' ag.pk %}" style="color:#c9a84c">Ver</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p style="color:#666">Nenhum histórico ainda.</p>
+{% endif %}
+{% endblock %}

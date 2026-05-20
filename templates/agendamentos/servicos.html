@@ -1,0 +1,21 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Serviços{% endblock %}
+{% block content %}
+<h1>Nossos Serviços</h1>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem">
+  {% for s in servicos %}
+  <div class="card" style="margin-bottom:0">
+    <div style="font-size:.75rem;color:#c9a84c;text-transform:uppercase;letter-spacing:1px">{{ s.get_categoria_display }}</div>
+    <div style="font-weight:700;font-size:1.1rem;margin:.3rem 0">{{ s.nome }}</div>
+    {% if s.descricao %}<div style="color:#888;font-size:.9rem;margin-bottom:.5rem">{{ s.descricao }}</div>{% endif %}
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:1.3rem;font-weight:800;color:#c9a84c">R$ {{ s.preco }}</span>
+      <span style="color:#666;font-size:.85rem">⏱ {{ s.duracao_display }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div style="margin-top:2rem">
+  <a href="{% url 'agendar_step1' %}" class="btn btn-primary">Agendar Agora</a>
+</div>
+{% endblock %}

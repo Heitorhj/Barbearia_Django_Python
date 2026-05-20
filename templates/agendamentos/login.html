@@ -1,0 +1,20 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Entrar{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:0 auto">
+  <div class="card">
+    <h1>Entrar</h1>
+    <form method="post">{% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<small style="color:#fca5a5">{{ field.errors.0 }}</small>{% endif %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary" style="width:100%">Entrar</button>
+    </form>
+    <p style="margin-top:1rem;color:#aaa">Não tem conta? <a href="{% url 'registro' %}" style="color:#c9a84c">Cadastre-se</a></p>
+  </div>
+</div>
+{% endblock %}

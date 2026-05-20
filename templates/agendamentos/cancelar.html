@@ -1,0 +1,23 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Cancelar Agendamento{% endblock %}
+{% block content %}
+<div style="max-width:500px;margin:0 auto">
+  <div class="card">
+    <h1 style="color:#ef4444">Cancelar Agendamento</h1>
+    <p style="color:#aaa;margin-bottom:1rem">
+      <strong style="color:#e5e5e5">{{ agendamento.servico.nome }}</strong> com
+      {{ agendamento.barbeiro }} em {{ agendamento.data_hora|date:"d/m/Y H:i" }}
+    </p>
+    <div class="msg msg-error">Atenção: cancelamentos com menos de 1 hora de antecedência não são permitidos.</div>
+    <form method="post" style="margin-top:1rem">{% csrf_token %}
+      {% for field in form %}
+      <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+        {{ field }}<label>{{ field.label }}</label>
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+      <a href="{% url 'detalhe_agendamento' agendamento.pk %}" class="btn btn-secondary" style="margin-left:.5rem">Voltar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

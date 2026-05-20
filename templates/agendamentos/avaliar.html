@@ -1,0 +1,19 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Avaliar{% endblock %}
+{% block content %}
+<div style="max-width:500px;margin:0 auto">
+  <div class="card">
+    <h1>Avaliar Serviço</h1>
+    <p style="color:#aaa;margin-bottom:1rem">{{ agendamento.servico.nome }} com {{ agendamento.barbeiro }}</p>
+    <form method="post">{% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

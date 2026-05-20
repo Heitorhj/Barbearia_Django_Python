@@ -1,0 +1,23 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Agendar – Passo 2{% endblock %}
+{% block content %}
+<div class="steps">
+  <div class="step">1. Serviço e Barbeiro</div>
+  <div class="step active">2. Data</div>
+  <div class="step">3. Horário</div>
+</div>
+<div class="card">
+  <h1>Escolha a data</h1>
+  <form method="post">{% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}<small style="color:#fca5a5">{{ field.errors.0 }}</small>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Próximo →</button>
+    <a href="{% url 'agendar_step1' %}" class="btn btn-secondary" style="margin-left:.5rem">← Voltar</a>
+  </form>
+</div>
+{% endblock %}

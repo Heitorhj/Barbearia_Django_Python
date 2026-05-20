@@ -1,0 +1,58 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Dashboard – {{ barbeiro }}{% endblock %}
+{% block content %}
+<h1>Dashboard – {{ barbeiro }}</h1>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem">
+  <div class="card" style="margin-bottom:0;text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#c9a84c">{{ stats.total_mes }}</div>
+    <div style="color:#aaa">Cortes este mês</div>
+  </div>
+  <div class="card" style="margin-bottom:0;text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#c9a84c">
+      {% if stats.media_nota %}{{ stats.media_nota|floatformat:1 }} ⭐{% else %}–{% endif %}
+    </div>
+    <div style="color:#aaa">Média de avaliações</div>
+  </div>
+</div>
+
+<h2>Agendamentos de Hoje</h2>
+{% if agendamentos_hoje %}
+<div class="card" style="padding:0;margin-bottom:2rem">
+  <table>
+    <thead><tr><th>Hora</th><th>Cliente</th><th>Serviço</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for ag in agendamentos_hoje %}
+      <tr>
+        <td>{{ ag.data_hora|date:"H:i" }}</td>
+        <td>{{ ag.cliente }}</td>
+        <td>{{ ag.servico.nome }}</td>
+        <td><span class="badge badge-{{ ag.status }}">{{ ag.get_status_display }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p style="color:#666;margin-bottom:1.5rem">Nenhum agendamento para hoje.</p>
+{% endif %}
+
+<h2>Próximos 7 dias</h2>
+{% if proximos_7_dias %}
+<div class="card" style="padding:0">
+  <table>
+    <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Serviço</th></tr></thead>
+    <tbody>
+      {% for ag in proximos_7_dias %}
+      <tr>
+        <td>{{ ag.data_hora|date:"d/m H:i" }}</td>
+        <td>{{ ag.cliente }}</td>
+        <td>{{ ag.servico.nome }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p style="color:#666">Nenhum agendamento nos próximos 7 dias.</p>
+{% endif %}
+{% endblock %}

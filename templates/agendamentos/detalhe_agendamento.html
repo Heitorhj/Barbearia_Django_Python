@@ -1,0 +1,33 @@
+{% extends "agendamentos/base.html" %}
+{% block title %}Agendamento #{{ agendamento.pk }}{% endblock %}
+{% block content %}
+<h1>Agendamento #{{ agendamento.pk }}</h1>
+<div class="card">
+  <table>
+    <tr><th>Serviço</th><td>{{ agendamento.servico.nome }}</td></tr>
+    <tr><th>Barbeiro</th><td>{{ agendamento.barbeiro }}</td></tr>
+    <tr><th>Data/Hora</th><td>{{ agendamento.data_hora|date:"d/m/Y H:i" }}</td></tr>
+    <tr><th>Duração</th><td>{{ agendamento.servico.duracao_display }}</td></tr>
+    <tr><th>Valor</th><td>R$ {{ agendamento.servico.preco }}</td></tr>
+    <tr><th>Status</th><td><span class="badge badge-{{ agendamento.status }}">{{ agendamento.get_status_display }}</span></td></tr>
+  </table>
+</div>
+
+<div style="display:flex;gap:1rem;flex-wrap:wrap">
+  {% if agendamento.pode_cancelar %}
+    <a href="{% url 'cancelar_agendamento' agendamento.pk %}" class="btn btn-danger">Cancelar Agendamento</a>
+  {% endif %}
+  {% if agendamento.status == 'concluido' and not avaliacao %}
+    <a href="{% url 'avaliar_agendamento' agendamento.pk %}" class="btn btn-primary">⭐ Avaliar</a>
+  {% endif %}
+  <a href="{% url 'meus_agendamentos' %}" class="btn btn-secondary">← Voltar</a>
+</div>
+
+{% if avaliacao %}
+<div class="card" style="margin-top:1.5rem">
+  <h2 style="font-size:1rem">Sua avaliação</h2>
+  <div>{% for i in "12345" %}{% if forloop.counter <= avaliacao.nota %}⭐{% endif %}{% endfor %}</div>
+  {% if avaliacao.comentario %}<p style="margin-top:.5rem;color:#ccc">{{ avaliacao.comentario }}</p>{% endif %}
+</div>
+{% endif %}
+{% endblock %}
